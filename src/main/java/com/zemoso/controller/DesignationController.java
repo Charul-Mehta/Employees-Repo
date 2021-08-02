@@ -1,7 +1,6 @@
 package com.zemoso.controller;
 
-import com.zemoso.entities.Departments;
-import com.zemoso.entities.Designations;
+import com.zemoso.entities.Designation;
 import com.zemoso.exception.NotFoundException;
 import com.zemoso.service.DesignationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +18,20 @@ public class DesignationController {
 
     // save Designation
     @PostMapping("/designation/{name}")
-    public Designations createDesignation(@PathVariable(value = "name") String name){
+    public Designation createDesignation(@PathVariable(value = "name") String name){
         System.out.println("entered");
         return designationsService.saveDesignation(name);
     }
 
     // get all departments
     @GetMapping("/designation")
-    public List<Designations> getAllDepts(){
+    public List<Designation> getAllDepts(){
         return designationsService.getDesignation();
     }
 
     // get department by Id
     @GetMapping("/designation/{id}")
-    public Designations getDeptsById(@PathVariable(value = "id") String id) throws NotFoundException {
+    public Designation getDeptsById(@PathVariable(value = "id") String id) throws NotFoundException {
         UUID uuid=UUID.fromString(id);
         return designationsService.getDesignationById(uuid);
     }
@@ -44,7 +43,7 @@ public class DesignationController {
     }
 
     @PutMapping("/designation/update/{id}")
-    public Designations updateById(@PathVariable(value = "id") String id, @RequestBody Designations dept) throws NotFoundException {
+    public Designation updateById(@PathVariable(value = "id") String id, @RequestBody Designation dept) throws NotFoundException {
         UUID uuid=UUID.fromString(id);
         System.out.println(uuid);
         return designationsService.updateDesignation(uuid, dept);

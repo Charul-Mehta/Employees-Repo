@@ -5,4 +5,6 @@ import com.zemoso.exception.NotFoundException;
 
 public interface EmployeeInterface {
     Employee saveEmployee(Employee emp) throws NotFoundException;
+
+    Employee updateEmployee(String id, int hike) throws NotFoundException;
 }

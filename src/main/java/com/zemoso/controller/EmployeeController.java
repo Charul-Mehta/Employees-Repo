@@ -1,17 +1,10 @@
 package com.zemoso.controller;
 
-import com.zemoso.dao.EmployeeDAO;
-import com.zemoso.entities.Departments;
 import com.zemoso.entities.Employee;
 import com.zemoso.exception.NotFoundException;
 import com.zemoso.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Logger;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -22,7 +15,12 @@ public class EmployeeController {
 
     @PostMapping("employee")
     public Employee saveEmployee( @RequestBody Employee emp) throws NotFoundException {
-        System.out.println(emp.getDepartment());
         return employeeService.saveEmployee(emp);
     }
+
+    @PutMapping("promoteEmployee")
+    public Employee updateEmployee(String id, int hike) throws NotFoundException {
+        return employeeService.updateEmployee(id, hike);
+    }
+
 }

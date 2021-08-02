@@ -3,7 +3,6 @@ package com.zemoso.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import com.zemoso.entities.*;
 
 import java.util.UUID;
 
@@ -16,16 +15,27 @@ public class Employee{
     @Id
     private UUID id=UUID.randomUUID();
     private String name;
-    private Integer salary;
+    private int salary;
     private String email;
-    private Integer hikePercentage;
+    @Column(name = "hike_percentage")
+    private int hikePercentage;
 
+    public Employee(UUID id, String name, int salary) {
+        this.id = id;
+        this.name = name;
+        this.salary=salary;
+    }
 
+    public Employee(){
+
+    }
+    @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id", columnDefinition = "uuid")
-    private Departments department;
+    private Department department;
 
+    @ManyToOne
     @JoinColumn(name = "designation_id", referencedColumnName = "id", columnDefinition = "uuid")
-    private Designations designation;
+    private Designation designation;
 
 
 }

@@ -1,8 +1,7 @@
 package com.zemoso.service;
 
 import com.zemoso.dao.DesignationsDAO;
-import com.zemoso.entities.Departments;
-import com.zemoso.entities.Designations;
+import com.zemoso.entities.Designation;
 import com.zemoso.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,23 +16,23 @@ public class DesignationsService implements DesignationsInterface {
     DesignationsDAO designationsDAO;
 
     @Override
-    public List<Designations> getDesignation() {
+    public List<Designation> getDesignation() {
         return designationsDAO.findAll();
     }
 
     @Override
-    public Designations getDesignationById(UUID id) throws NotFoundException {
+    public Designation getDesignationById(UUID id) throws NotFoundException {
         return designationsDAO.findById(id).orElseThrow(() -> new NotFoundException("No dept by id :" + id));
     }
 
     @Override
-    public Designations saveDesignation(String name) {
-        return designationsDAO.save(new Designations(name));
+    public Designation saveDesignation(String name) {
+        return designationsDAO.save(new Designation(name));
     }
 
     @Override
-    public Designations updateDesignation(UUID id, Designations des) throws NotFoundException {
-        Designations designations = designationsDAO.findById(id).orElseThrow(() -> new NotFoundException("No dept by id :" + id));
+    public Designation updateDesignation(UUID id, Designation des) throws NotFoundException {
+        Designation designations = designationsDAO.findById(id).orElseThrow(() -> new NotFoundException("No dept by id :" + id));
 
         designations.setName(des.getName());
         designationsDAO.save(designations);
@@ -44,7 +43,7 @@ public class DesignationsService implements DesignationsInterface {
     @Override
     public Boolean deleteDesignation(UUID id) throws NotFoundException {
         boolean flag=false;
-        Designations designations= designationsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
+        Designation designations= designationsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
         designationsDAO.delete(designations);
         flag=true;
         return flag;

@@ -1,7 +1,7 @@
 package com.zemoso.service;
 
 import com.zemoso.dao.DepartmentsDAO;
-import com.zemoso.entities.Departments;
+import com.zemoso.entities.Department;
 import com.zemoso.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,24 +16,33 @@ public class DepartmentsService implements DepartmentsInterface{
     @Autowired
     DepartmentsDAO departmentsDAO;
 
+    public DepartmentsService(DepartmentsDAO departmentsDAO){
+        this.departmentsDAO=departmentsDAO;
+    }
+
     @Override
-    public List<Departments> getDepts() {
+    public List<Department> getDepts() {
         return departmentsDAO.findAll();
     }
 
     @Override
-    public Departments getDeptsById(UUID id) throws NotFoundException {
+    public Department getDeptsById(UUID id) throws NotFoundException {
         return departmentsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
     }
 
     @Override
-    public Departments saveDept(String name){
-        return departmentsDAO.save(new Departments(name));
+    public Department saveDept(String name){
+        try{
+            return departmentsDAO.save(new Department(name));
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
-    public Departments updateDept(UUID id, Departments dept) throws NotFoundException {
-        Departments deptartment= departmentsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
+    public Department updateDept(UUID id, Department dept) throws NotFoundException {
+        Department deptartment= departmentsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
 
         deptartment.setName(dept.getName());
         departmentsDAO.save(deptartment);
@@ -44,7 +53,7 @@ public class DepartmentsService implements DepartmentsInterface{
     @Override
     public Boolean deleteDept(UUID id) throws NotFoundException {
         boolean flag=false;
-        Departments deptartment= departmentsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
+        Department deptartment= departmentsDAO.findById(id).orElseThrow(()->new NotFoundException("No dept by id :" + id));
         departmentsDAO.delete(deptartment);
         flag=true;
         return flag;

@@ -3,13 +3,14 @@ package com.zemoso.service;
 import com.zemoso.dao.DepartmentsDAO;
 import com.zemoso.dao.DesignationsDAO;
 import com.zemoso.dao.EmployeeDAO;
-import com.zemoso.entities.Departments;
-import com.zemoso.entities.Designations;
+import com.zemoso.entities.Department;
+import com.zemoso.entities.Designation;
 import com.zemoso.entities.Employee;
 import com.zemoso.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -27,21 +28,25 @@ public class EmployeeService implements EmployeeInterface {
     @Autowired
     DepartmentsDAO departmentsDAO;
 
+    public EmployeeService(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
+    }
+
     private static final Logger logger = Logger.getLogger(String.valueOf(EmployeeService.class));
 
     @Override
     public Employee saveEmployee(Employee emp) throws NotFoundException {
-        logger.log(Level.INFO,departmentsDAO.findAll().toString());
-        logger.log(Level.INFO,emp.getDepartment().getName().toString());
-        Departments dept= departmentsDAO.findAll().stream().filter(x->x.getName().toLowerCase().trim()== emp.getDepartment().getName().toLowerCase().trim()).findFirst().orElseThrow(() -> new NotFoundException("No dept by name :" + emp.getDepartment().getName()));
-
-        emp.setDepartment(dept);
-
-        Designations designations= designationsDAO.findAll().stream().filter(x->x.getName()==emp.getDesignation().getName()).collect(Collectors.toList()).get(0);
-        if(designations!=null)
-            emp.setDesignation(designations);
-
-
         return employeeDAO.save(emp);
     }
+
+    @Override
+    public Employee updateEmployee(String id, int hike) throws NotFoundException {
+        UUID uuid=UUID.fromString(id);
+        Employee employee=employeeDAO.findById(uuid).orElseThrow(() -> new NotFoundException("No dept by id :" + id));
+        employee.setSalary((int)employee.getSalary()*hike/100+employee.getSalary());
+        employeeDAO.save(employee);
+        return employee;
+    }
+
+
 }

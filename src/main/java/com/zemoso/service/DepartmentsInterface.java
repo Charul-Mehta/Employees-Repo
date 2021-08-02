@@ -1,7 +1,7 @@
 package com.zemoso.service;
 
 
-import com.zemoso.entities.Departments;
+import com.zemoso.entities.Department;
 import com.zemoso.exception.NotFoundException;
 
 import java.util.List;
@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface DepartmentsInterface {
 
-    List<Departments> getDepts();
+    List<Department> getDepts();
 
-    Departments getDeptsById(UUID id) throws NotFoundException;
+    Department getDeptsById(UUID id) throws NotFoundException;
 
-    Departments saveDept(String name);
+    Department saveDept(String name);
 
-    Departments updateDept(UUID id, Departments dept) throws NotFoundException;
+    Department updateDept(UUID id, Department dept) throws NotFoundException;
 
     Boolean deleteDept(UUID id) throws NotFoundException;
 }
