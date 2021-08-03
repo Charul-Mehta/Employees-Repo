@@ -6,6 +6,8 @@ import com.zemoso.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/")
 public class EmployeeController {
@@ -23,4 +25,8 @@ public class EmployeeController {
         return employeeService.updateEmployee(id, hike);
     }
 
+    @GetMapping("employeesByDept/{name}")
+    public List<Employee> getEmployeesByDept(@PathVariable(value = "name") String name){
+        return  employeeService.getEmployeesByDept(name);
+    }
 }

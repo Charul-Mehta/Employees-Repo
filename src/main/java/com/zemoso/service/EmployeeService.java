@@ -10,6 +10,7 @@ import com.zemoso.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,5 +49,12 @@ public class EmployeeService implements EmployeeInterface {
         return employee;
     }
 
+    @Override
+    public List<Employee> getEmployeesByDept(String name){
+        List<Employee> list;
+        Department department= departmentsDAO.findByName(name);
+        list=employeeDAO.findAll().stream().filter(x->x.getDepartment().getId()==department.getId()).collect(Collectors.toList());
+        return list;
+    }
 
 }
